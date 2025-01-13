@@ -399,4 +399,66 @@ export class Collection {
       this.client.api.options,
     );
   }
+
+  /**
+   * Handles file uploads and stores them in the vector database.
+   *
+   * @param {File} file - The file to be uploaded.
+   * @returns {Promise<void>} A promise that resolves when the file is uploaded and stored.
+   * @throws {Error} If there is an issue uploading or storing the file.
+   *
+   * @example
+   * ```typescript
+   * const file = new File(["content"], "example.txt", { type: "text/plain" });
+   * await collection.uploadFile(file);
+   * ```
+   */
+  async uploadFile(file: File): Promise<void> {
+    const fileContent = await this.readFileContent(file);
+    await this.upsert({
+      ids: await this.hashString(file.name),
+      documents: fileContent,
+    });
+  }
+
+  /**
+   * Reads the content of a file.
+   *
+   * @param {File} file - The file to be read.
+   * @returns {Promise<string>} A promise that resolves to the content of the file.
+   * @throws {Error} If there is an issue reading the file.
+   *
+   * @example
+   * ```typescript
+   * const fileContent = await collection.readFileContent(file);
+   * ```
+   */
+  private readFileContent(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsText(file);
+    });
+  }
+
+  /**
+   * Generates a hash string from a given message.
+   *
+   * @param {string} message - The message to be hashed.
+   * @returns {Promise<string>} A promise that resolves to the hash string.
+   * @throws {Error} If there is an issue generating the hash.
+   *
+   * @example
+   * ```typescript
+   * const hash = await collection.hashString("example");
+   * ```
+   */
+  private async hashString(message: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
 }

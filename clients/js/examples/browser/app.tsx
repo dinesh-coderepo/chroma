@@ -132,6 +132,39 @@ export function App() {
     }
   };
 
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!collection) {
+      return;
+    }
+
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    setIsMutating(true);
+    try {
+      const fileContent = await readFileContent(file);
+      await collection.upsert({
+        ids: await hashString(file.name),
+        documents: fileContent,
+      });
+
+      await revalidate();
+    } finally {
+      setIsMutating(false);
+    }
+  };
+
+  const readFileContent = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsText(file);
+    });
+  };
+
   const handleLoadSampleData = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -155,6 +188,7 @@ export function App() {
   return (
     <div>
       <h1>Chroma Browser Demo</h1>
+      <h2>Maluchuru Sai Dinesh Reddy</h2>
 
       <p>
         This assumes that you have a locally running Chroma instance at port{" "}
@@ -181,6 +215,11 @@ export function App() {
           </button>
         </div>
       </form>
+
+      <div>
+        <h3>Upload File</h3>
+        <input type="file" onChange={handleFileUpload} disabled={isMutating} />
+      </div>
 
       <div>
         <h3>Query</h3>
