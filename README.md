@@ -81,6 +81,22 @@ What are embeddings?
 
 Embeddings databases (also known as **vector databases**) store embeddings and allow you to search by nearest neighbors rather than by substrings like a traditional database. By default, Chroma uses [Sentence Transformers](https://docs.trychroma.com/guides/embeddings#default:-all-minilm-l6-v2) to embed for you but you can also use OpenAI embeddings, Cohere (multilingual) embeddings, or your own.
 
+## New File Upload Feature
+
+The application now includes a new file upload feature that allows you to upload files from the browser and store them in the vector database. This feature is implemented in the `clients/js/examples/browser/app.tsx` file and the `clients/js/src/ChromaClient.ts` and `clients/js/src/Collection.ts` files.
+
+## Backend Functionality
+
+The backend of the application handles file uploads and stores them in the vector database. It also provides methods to retrieve the stored files and documents. The backend functions are implemented in the `ChromaClient` and `Collection` classes.
+
+## Scaling the Application
+
+To scale the application, you can deploy it to a cloud provider such as AWS, Azure, or GCP. You can also use a containerization platform like Docker to run the application in a scalable environment. Ensure that the vector database is properly configured to handle large amounts of data and concurrent requests.
+
+## Hosting for Large Data
+
+If you want to host the application for large data, consider using a distributed database system that can handle high volumes of data and provide high availability. You can also use a content delivery network (CDN) to distribute the load and improve the performance of the application.
+
 ## Get involved
 
 Chroma is a rapidly developing project. We welcome PR contributors and ideas for how to improve the project.

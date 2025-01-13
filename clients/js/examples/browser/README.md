@@ -36,6 +36,18 @@ The application allows you to upload files from the browser and store them in th
 
 The application also demonstrates the retrieval process from the vector database. You can query the stored files and documents using the search functionality provided in the UI.
 
+## Backend Functionality
+
+The backend of the application handles file uploads and stores them in the vector database. It also provides methods to retrieve the stored files and documents. The backend functions are implemented in the `ChromaClient` and `Collection` classes.
+
+## Scaling the Application
+
+To scale the application, you can deploy it to a cloud provider such as AWS, Azure, or GCP. You can also use a containerization platform like Docker to run the application in a scalable environment. Ensure that the vector database is properly configured to handle large amounts of data and concurrent requests.
+
+## Hosting for Large Data
+
+If you want to host the application for large data, consider using a distributed database system that can handle high volumes of data and provide high availability. You can also use a content delivery network (CDN) to distribute the load and improve the performance of the application.
+
 ## Credits
 
 This application was created by Maluchuru Sai Dinesh Reddy.
