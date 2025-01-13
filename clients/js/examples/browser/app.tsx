@@ -188,6 +188,7 @@ export function App() {
   return (
     <div>
       <h1>Chroma Browser Demo</h1>
+      <h2>Maluchuru Sai Dinesh Reddy</h2>
 
       <p>
         This assumes that you have a locally running Chroma instance at port{" "}
